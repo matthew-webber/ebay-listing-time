@@ -1,0 +1,35 @@
+#ebay-listing-time.container {
+  position: relative;
+  display: flex;
+}
+
+#ebay-listing-time table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 1px solid #333;
+  margin: 10px 0;
+}
+
+#ebay-listing-time .logo::before {
+  content: url('chrome-extension://__MSG_@@extension_id__/content/logo.svg');
+  position: absolute;
+  top: 0;
+}
+
+#ebay-listing-time td {
+  padding: 4px;
+  border: 1px solid #333;
+  font-size: smaller;
+}
+
+#ebay-listing-time .label {
+  text-align: right;
+  font-weight: bold;
+}
+
+#ebay-listing-time .value {
+  text-align: center;
+  color: #444;
+  padding: 0 10px;
+  font-size: small;
+}
