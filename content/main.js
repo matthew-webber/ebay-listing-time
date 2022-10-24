@@ -104,29 +104,34 @@ ready(window.document, () => {
   // get the start time
   const html = document.querySelector('html').textContent;
   const re = /startTime":(\d+?),/;
-  const startTime = html.match(re)[1];
+  const match = html.match(re);
 
-  const listed = new Date(Number(startTime)).toLocaleString();
-  const timeAgo = getTimeAgo(listed).replace(',', '');
+  if (match) {
+    const startTime = match[1];
+    const listed = new Date(Number(startTime)).toLocaleString();
+    const timeAgo = getTimeAgo(listed).replace(',', '');
 
-  const template = document.createElement('div');
-  const h1 = document.querySelector('h1');
-  h1.insertAdjacentElement('afterend', template);
+    const template = document.createElement('div');
+    const h1 = document.querySelector('h1');
+    h1.insertAdjacentElement('afterend', template);
 
-  fetch(chrome.runtime.getURL('content/template.html'))
-    .then((response) => {
-      response.text().then((text) => {
-        template.innerHTML = text;
-        const timeAgoElement = template.querySelector('.time-ago .value');
-        const listedElement = template.querySelector('.listed .value');
-        timeAgoElement.textContent = timeAgo;
-        listedElement.textContent = listed;
+    fetch(chrome.runtime.getURL('content/template.html'))
+      .then((response) => {
+        response.text().then((text) => {
+          template.innerHTML = text;
+          const timeAgoElement = template.querySelector('.time-ago .value');
+          const listedElement = template.querySelector('.listed .value');
+          timeAgoElement.textContent = timeAgo;
+          listedElement.textContent = listed;
+        });
+      })
+      .catch((e) => {
+        console.error(`Ebay Listing Time (extension) error: ${e}`);
       });
-    })
-    .catch((e) => {
-      console.error(`Ebay Listing Time (extension) error: ${e}`);
-    });
 
-  // adding table to DOM
-  const item = document.querySelector('h1');
+    // adding table to DOM
+    const item = document.querySelector('h1');
+  } else {
+    return; // no start time found
+  }
 });
